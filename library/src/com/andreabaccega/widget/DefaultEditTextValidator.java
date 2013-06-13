@@ -2,9 +2,12 @@ package com.andreabaccega.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -106,7 +109,7 @@ public class DefaultEditTextValidator
                 {
                     if ( s != null && s.length() > 0 && editText.getError() != null )
                     {
-                        editText.setError( null );
+                        setError(editText, null);
                     }
                 }
             };
@@ -308,10 +311,23 @@ public class DefaultEditTextValidator
         {
             if ( mValidator.hasErrorMessage() )
             {
-                editText.setError( mValidator.getErrorMessage() );
+                setError(editText, mValidator.getErrorMessage());
             }
         }
         return isValid; 
+    }
+
+    // http://stackoverflow.com/a/7350315/346975
+    public static void setError(EditText editText, String errorMessage) {
+        if (null == errorMessage) {
+            editText.setError(null);
+        } else {
+            ForegroundColorSpan fgcspan = new ForegroundColorSpan(Color.RED);
+            SpannableStringBuilder ssbuilder = new SpannableStringBuilder(errorMessage);
+            ssbuilder.setSpan(fgcspan, 0, errorMessage.length(), 0);
+            editText.setError(ssbuilder);
+        }
+        editText.setError(errorMessage);
     }
 
     private TextWatcher tw;

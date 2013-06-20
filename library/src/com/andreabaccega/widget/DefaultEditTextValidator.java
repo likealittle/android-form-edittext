@@ -327,7 +327,6 @@ public class DefaultEditTextValidator
             ssbuilder.setSpan(fgcspan, 0, errorMessage.length(), 0);
             editText.setError(ssbuilder);
         }
-        editText.setError(errorMessage);
     }
 
     private TextWatcher tw;
